@@ -1,4 +1,4 @@
-let debug = true;
+let debug = false;
 
 const electron = require('electron');
 const { app, BrowserWindow } = electron;
