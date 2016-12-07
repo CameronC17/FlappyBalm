@@ -1,7 +1,7 @@
-let debug = false;
+let debug = true;
 
 const electron = require('electron');
-const { app, BrowserWindow } = electron;
+const { app, BrowserWindow, ipcMain } = electron;
 var fs = require('fs');
 
 var scores = [];
@@ -19,19 +19,19 @@ app.on('ready', () => {
         devTools(window);
 })
 
-exports.startGame = () => {
+ipcMain.on('startGame', (e) => {
     let window = new BrowserWindow();
     window.setFullScreen(true);
     window.loadURL(`file://${__dirname}/public/game.html`);
-}
+});
 
-exports.getScores = () => {
-    return scores;
-}
+ipcMain.on('getScores', (e) => {
+    e.sender.send('returnScores', scores);
+});
 
-exports.addScore = (score) => {
+ipcMain.on('addScore', (e, score) => {
     scores.push(score);
-}
+});
 
 function devTools(window) {
     window.webContents.openDevTools();

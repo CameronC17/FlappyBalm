@@ -1,5 +1,5 @@
 const remote = require('electron').remote;
-const main = remote.require('./main.js');
+const {ipcRenderer} = require('electron');
 
 var animFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame    || window.oRequestAnimationFrame      || window.msRequestAnimationFrame     || null ;
 
@@ -132,7 +132,7 @@ function clearObstacles() {
 }
 
 function loseGame() {
-    main.addScore(score);
+    ipcRenderer.send('addScore', score);
     checkPos = 0;
     score = 0;
     window.alert("You've missed your train!");
